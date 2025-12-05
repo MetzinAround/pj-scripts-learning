@@ -10,7 +10,7 @@ if not TOKEN:
     print("ERROR: No token found in environment variables")
     sys.exit(1)
 
-print(f"Token found: {TOKEN[:8]}...")
+print("Token found and loaded successfully")
 headers = {'Authorization': f'token {TOKEN}'}
 issue_list_url = f'https://api.github.com/repos/{OWNER}/{REPO}/issues?state=closed&per_page=100'
 issues = []
