@@ -8,10 +8,8 @@ REPO = 'becoming-an-expert'
 TOKEN = conf.api_token
 
 # Filter by specific usernames (set to None or empty list to disable filtering)
-FILTER_USERNAMES = ["Dsniels", "redhatgamer", "Henninglar", "Darshan808", "nisalgunawardhana", "wizziez", "Nimastic", "Kile", "Frost-Lord", "tobidelly", "Spirizeon", "hichemfantar", "EncryptEx", "AlperenOvak", "mohamedaminebentayeb", "AlfredAR8", "Dav082004", "sethidhruv188", "ybedoyab", "SantyMsss", "KhuranaSanchit", "Yusadem131", "UtkarshJaiswal1406", "fit-alpha-coma", "cyu60", "DVidal1205", "Nalito", "KaalkidanSahele", "MuhammadAdilMemon", "nityaa3009", "sakshamgurbhele", "mohanamisra", "TheRyanMajd", "pmj-chosim", "Imayeer", "johandraew", "ashleymawoyo", "JocelynVelarde", "AnenIsaac"]
-
-# Filter by issue title (set to None to disable filtering)
-FILTER_TITLE = "[REQUEST] Training Changes Requested"  # Only analyze issues with this exact title
+FILTER_USERNAMES = conf.usernames
+FILTER_TITLE = "[REQUEST] Training review" # Only analyze issues with this exact title
 
 if not TOKEN:
     print("ERROR: No token found in environment variables")
