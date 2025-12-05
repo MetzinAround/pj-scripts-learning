@@ -23,7 +23,10 @@ while page <= 4:
     
     if r.status_code != 200:
         print(f"\nERROR: API returned {r.status_code}")
-        print(f"Response: {r.json()}")
+        try:
+            print(f"Response: {r.json()}")
+        except Exception:
+            print(f"Response: {r.text}")
         sys.exit(1)
     
     data = r.json()
