@@ -7,5 +7,5 @@ try:
 except ImportError:
     pass  # dotenv not installed, will use environment variables directly
 
-# Check for token in various formats (case-sensitive)
+# Check for token in various formats (handles different casing)
 api_token = os.getenv("Token") or os.getenv("token") or os.getenv("GITHUB_TOKEN")
