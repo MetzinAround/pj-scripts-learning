@@ -1,22 +1,43 @@
 import requests
 import config as conf
+import sys
 
 OWNER = 'campus-experts'
 REPO = 'becoming-an-expert'
-TOKEN = conf.api_token 
+TOKEN = conf.api_token
 
+if not TOKEN:
+    print("ERROR: No token found in environment variables")
+    sys.exit(1)
+
+print("Token found and loaded successfully")
 headers = {'Authorization': f'token {TOKEN}'}
 issue_list_url = f'https://api.github.com/repos/{OWNER}/{REPO}/issues?state=closed&per_page=100'
 issues = []
 page = 1
 
-while True:
+print(f"Fetching issues from {OWNER}/{REPO}...")
+while page <= 4:
+    print(f"Page {page}...", end=" ", flush=True)
     r = requests.get(issue_list_url + f"&page={page}", headers=headers)
+    
+    if r.status_code != 200:
+        print(f"\nERROR: API returned {r.status_code}")
+        try:
+            print(f"Response: {r.json()}")
+        except Exception:
+            print(f"Response: {r.text}")
+        sys.exit(1)
+    
     data = r.json()
     if not data:
+        print("\nNo more data")
         break
+    print(f"({len(data)} issues)")
     issues += data
     page += 1
+
+print(f"\nTotal issues fetched: {len(issues)}")
 
 total_days = 0
 count = 0
