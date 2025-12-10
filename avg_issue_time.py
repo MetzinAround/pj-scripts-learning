@@ -7,7 +7,7 @@ OWNER = 'campus-experts'
 REPO = 'becoming-an-expert'
 TOKEN = conf.api_token
 
-# Filter by specific usernames (set to None or empty list to disable filtering)
+# Filter by specific usernames (empty list disables filtering)
 FILTER_USERNAMES = conf.usernames
 FILTER_TITLE = "[REQUEST] Training review" # Only analyze issues with this exact title
 
