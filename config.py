@@ -12,4 +12,7 @@ except ImportError:
 api_token = os.getenv("TOKEN")
 
 # Load usernames from environment variable (expects JSON array format)
-usernames = json.loads(os.getenv("FILTER_USERNAMES", "[]"))
+try:
+    usernames = json.loads(os.getenv("FILTER_USERNAMES", "[]"))
+except json.JSONDecodeError:
+    usernames = []
