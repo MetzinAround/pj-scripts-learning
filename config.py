@@ -1,4 +1,5 @@
 import os
+import json
 
 # Try to load from .env file if it exists (for local development)
 try:
@@ -9,3 +10,9 @@ except ImportError:
 
 # Check for token in various formats (handles different casing)
 api_token = os.getenv("TOKEN")
+
+# Load usernames from environment variable (expects JSON array format)
+try:
+    usernames = json.loads(os.getenv("FILTER_USERNAMES", "[]"))
+except json.JSONDecodeError:
+    usernames = []
