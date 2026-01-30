@@ -1,0 +1,66 @@
+name: Create Weekly Campus Expert Analyst Issue
+
+on:
+  schedule:
+    # Runs every Monday at 9:00 AM Eastern Time (13:00 UTC for EDT, 14:00 UTC for EST)
+    # Note: This uses 13:00 UTC which is 9am EDT (Mar-Nov) and 8am EST (Nov-Mar)
+    # GitHub Actions cron runs in UTC and doesn't automatically adjust for timezones
+    - cron: '0 13 * * 1'
+  workflow_dispatch: # Allows manual triggering for testing
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Create weekly issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Calculate the Monday of the current week
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Adjust to get Monday
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + diff);
+            
+            // Format date as MM-DD
+            const month = String(monday.getMonth() + 1).padStart(2, '0');
+            const day = String(monday.getDate()).padStart(2, '0');
+            const weekOf = `${month}-${day}`;
+            
+            // TODO: Replace 'YOUR_TEMPLATE_NAME_HERE' with your actual issue template filename
+            // Example: 'weekly-report.md' or 'weekly-report.yml'
+            const templateName = 'YOUR_TEMPLATE_NAME_HERE';
+            
+            const title = `Week of ${weekOf} - Campus Expert Analyst Issue`;
+            
+            // Create the issue
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              labels: ['Campus Experts'],
+              assignees: ['MetzinAround', 'tychred', 'cpcoll'],
+              // Note: To use an issue template, you'll need to read the template file
+              // and populate the body. See the step below for template integration.
+            });
+            
+            console.log(`Created issue #${issue.data.number}: ${issue.data.html_url}`);
+      
+      # If you want to use a specific issue template, uncomment and modify this step:
+      # - name: Read issue template
+      #   id: template
+      #   run: |
+      #     # TODO: Update this path to your actual issue template path
+      #     # TEMPLATE_CONTENT=$(cat .github/ISSUE_TEMPLATE/your-template.md)
+      #     # echo "content<<EOF" >> $GITHUB_OUTPUT
+      #     # echo "$TEMPLATE_CONTENT" >> $GITHUB_OUTPUT
+      #     # echo "EOF" >> $GITHUB_OUTPUT
+      #     echo "Update the template path above"
